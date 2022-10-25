@@ -2,7 +2,7 @@
 
 Ready-to-use React UI library
 
-## 🔎 Features
+## 📍 Features
 
 A set of high-quality React components
 
