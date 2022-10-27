@@ -6,12 +6,16 @@ function App() {
   return (
     <>
       <Button>Hello</Button>
+      <Button btnType={ButtonType.Primary} size={ButtonSize.Large}>
+        Hello two
+      </Button>
+
       <Button
-        btnType={ButtonType.Primary}
+        btnType={ButtonType.Danger}
         size={ButtonSize.Large}
         disabled={true}
       >
-        Hello two
+        Hello three
       </Button>
       <Button btnType={ButtonType.Link} href="https://www.google.com">
         Hello google
