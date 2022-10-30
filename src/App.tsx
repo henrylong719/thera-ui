@@ -1,35 +1,31 @@
 import React from 'react';
-import Alert, { AlertType } from './components/Alert';
-import Button, { ButtonSize, ButtonType } from './components/Button';
+import Alert from './components/alert/Alert';
+import Button from './components/button/Button';
 import './styles/index.scss';
 
 function App() {
   return (
     <>
       <Button>Hello</Button>
-      <Button btnType={ButtonType.Primary} size={ButtonSize.Large}>
+      <Button btnType={'primary'} size={'lg'}>
         Hello two
       </Button>
 
-      <Button
-        btnType={ButtonType.Danger}
-        size={ButtonSize.Large}
-        disabled={true}
-      >
+      <Button btnType={'danger'} size={'lg'} disabled={true}>
         Hello three
       </Button>
-      <Button btnType={ButtonType.Link} href="https://www.google.com">
+      <Button btnType={'link'} href="https://www.google.com">
         Hello google
       </Button>
 
       <Alert
         title="this is the danger alert"
-        alertType={AlertType.Danger}
+        type={'danger'}
         closable={false}
       />
-      <Alert title="this is the default alert" alertType={AlertType.Default} />
-      <Alert title="this is the success alert" alertType={AlertType.Success} />
-      <Alert title="this is the warning alert" alertType={AlertType.Warning} />
+      <Alert title="this is the default alert" type={'default'} />
+      <Alert title="this is the success alert" type={'success'} />
+      <Alert title="this is the warning alert" type={'warning'} />
     </>
   );
 }

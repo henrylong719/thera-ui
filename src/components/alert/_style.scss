@@ -1,0 +1,43 @@
+
+
+$alert-colors:
+(
+  "default" : $primary,
+  "success": $success,
+  "warning": $warning,
+  "danger": $danger,
+);
+
+@each $color, $value in $alert-colors {
+  .thera-alert-#{$color}{
+    @include alert-style($value, darken($value, 5%),$white)
+  }
+}
+
+.thera-alert {
+  position: relative;
+  padding: $alert-padding-y $alert-padding-x;
+  margin-bottom: $alert-margin-bottom;
+  border: $alert-border-width solid transparent;
+  border-radius: $alert-border-radius;
+  .thera-alert-close{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: $alert-padding-y $alert-padding-x;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .bold-title{
+    font-weight: bold;
+  }
+
+  .thera-alert-desc{
+    font-size: $alert-description-font-size;
+    margin: $alert-description-top-margin 0 0;
+  }
+}
+
+
+

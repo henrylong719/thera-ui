@@ -1,5 +1,4 @@
 
-/******************* button *******************/
 
 .btn {
   position: relative;
@@ -69,46 +68,4 @@
     color: $btn-link-disabled-color;
     pointer-events: none;
   }
-}
-
-/******************* alert *******************/
-
-
-.thera-alert {
-  position: relative;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid rgba(0,0,0,0);
-  border-radius: 0.25rem;
-}
-
-.thera-alert-title{
-  margin-bottom: 0;
-  font-weight: 500;
-  line-height: 1.2;
-}
-
-.thera-alert-close{
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0.75rem 1.25rem;
-  color: inherit;
-  cursor: pointer;
-}
-
-.thera-alert-success{
-  @include alert-style($success, $success, $white);
-}
-
-.thera-alert-danger{
-  @include alert-style($danger, $danger, $white);
-}
-
-.thera-alert-default{
-  @include alert-style($primary, $primary, $white);
-}
-
-.thera-alert-warning{
-  @include alert-style($warning, $warning, $white);
 }
