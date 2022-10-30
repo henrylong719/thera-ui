@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { AnchorHTMLAttributes, ButtonHTMLAttributes, FC } from 'react';
 
 export type ButtonSize = 'lg' | 'sm';
 export type ButtonType = 'primary' | 'default' | 'danger' | 'link';
@@ -13,25 +13,19 @@ interface BaseButtonProps {
   href?: string;
 }
 
-type NativeButtonProps = BaseButtonProps &
-  React.ButtonHTMLAttributes<HTMLElement>;
-type AnchorButtonProps = BaseButtonProps &
-  React.AnchorHTMLAttributes<HTMLElement>;
-
+type NativeButtonProps = BaseButtonProps & ButtonHTMLAttributes<HTMLElement>;
+type AnchorButtonProps = BaseButtonProps & AnchorHTMLAttributes<HTMLElement>;
 export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>;
 
-const Button: React.FC<BaseButtonProps> = (props) => {
+export const Button: FC<ButtonProps> = (props) => {
   const { btnType, className, disabled, size, children, href, ...restProps } =
     props;
-
   // btn, btn-lg, btn-primary
-
   const classes = classNames('btn', className, {
     [`btn-${btnType}`]: btnType,
     [`btn-${size}`]: size,
     disabled: btnType === 'link' && disabled,
   });
-
   if (btnType === 'link' && href) {
     return (
       <a className={classes} href={href} {...restProps}>
