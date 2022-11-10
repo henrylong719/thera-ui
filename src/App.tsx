@@ -1,6 +1,8 @@
 import React from 'react';
 import Alert from './components/alert/Alert';
 import Button from './components/button/Button';
+import Menu from './components/menu/Menu';
+import MenuItem from './components/menu/menuItem';
 import './styles/index.scss';
 
 function App() {
@@ -26,6 +28,12 @@ function App() {
       <Alert title="this is the default alert" type={'default'} />
       <Alert title="this is the success alert" type={'success'} />
       <Alert title="this is the warning alert" type={'warning'} />
+
+      <Menu defaultIndex={0}>
+        <MenuItem index={0}>link1</MenuItem>
+        <MenuItem index={1}>link1</MenuItem>
+        <MenuItem index={2}>link1</MenuItem>
+      </Menu>
     </>
   );
 }
