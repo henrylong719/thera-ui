@@ -1,7 +1,7 @@
-import Alert from './components/alert/Alert';
-import Button from './components/button/Button';
-import Menu from './components/menu/Menu';
-import MenuItem from './components/menu/menuItem';
+import Alert from './components/Alert/Alert';
+import Button from './components/Button/button';
+import Menu from './components/Menu/menu';
+import MenuItem from './components/Menu/menuItem';
 import './styles/index.scss';
 
 function App() {
@@ -28,20 +28,16 @@ function App() {
       <Alert title="this is the success alert" type={'success'} />
       <Alert title="this is the warning alert" type={'warning'} />
 
-      <Menu defaultIndex={0} className="menu-vertical">
-        <MenuItem index={0}>link1</MenuItem>
-        <MenuItem index={1} disabled={true}>
-          link1
-        </MenuItem>
-        <MenuItem index={2}>link1</MenuItem>
+      <Menu mode={'vertical'}>
+        <MenuItem>link1</MenuItem>
+        <MenuItem disabled={true}>link1</MenuItem>
+        <MenuItem>link1</MenuItem>
       </Menu>
 
-      <Menu defaultIndex={0}>
-        <MenuItem index={0}>link1</MenuItem>
-        <MenuItem index={1} disabled={true}>
-          link1
-        </MenuItem>
-        <MenuItem index={2}>link1</MenuItem>
+      <Menu>
+        <MenuItem>link1</MenuItem>
+        <MenuItem disabled={true}>link1</MenuItem>
+        <MenuItem>link1</MenuItem>
       </Menu>
     </>
   );
