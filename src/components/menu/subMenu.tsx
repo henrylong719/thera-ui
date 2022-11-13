@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { FunctionComponentElement } from 'react';
+import React, { FunctionComponentElement, useState } from 'react';
 import { useContext } from 'react';
 import { MenuContext } from './menu';
 import { MenuItemProps } from './menuItem';
@@ -17,11 +17,50 @@ const SubMenu: React.FC<SubMenuProps> = ({
   children,
   className,
 }) => {
+  const [menuOpen, setOpen] = useState(false);
   const context = useContext(MenuContext);
   const classes = classNames('menu-item submenu-item', className, {
     'is-active': context.index === index?.toString(),
   });
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setOpen(!menuOpen);
+  };
+
+  let timer: any;
+  const handleMouse = (e: React.MouseEvent, toggle: boolean) => {
+    clearTimeout(timer);
+    e.preventDefault();
+    timer = setTimeout(() => {
+      setOpen(toggle);
+    }, 300);
+  };
+
+  const clickEvents =
+    context.mode === 'vertical'
+      ? {
+          onClick: handleClick,
+        }
+      : {};
+
+  const hoverEvents =
+    context.mode !== 'vertical'
+      ? {
+          onMouseEnter: (e: React.MouseEvent) => {
+            handleMouse(e, true);
+          },
+          onMouseLeave: (e: React.MouseEvent) => {
+            handleMouse(e, false);
+          },
+        }
+      : {};
+
   const renderChildren = () => {
+    const subMenuClasses = classNames('thera-submenu', {
+      'menu-opened': menuOpen,
+    });
+
     const childrenComponent = React.Children.map(children, (child, i) => {
       const childElement = child as FunctionComponentElement<MenuItemProps>;
       if (childElement.type.displayName === 'MenuItem') {
@@ -33,12 +72,14 @@ const SubMenu: React.FC<SubMenuProps> = ({
       }
     });
 
-    return <ul className="thera-submenu">{childrenComponent}</ul>;
+    return <ul className={subMenuClasses}>{childrenComponent}</ul>;
   };
 
   return (
-    <li key={index} className={classes}>
-      <div className="submenu-title">{title}</div>
+    <li key={index} className={classes} {...hoverEvents}>
+      <div className="submenu-title" onClick={handleClick} {...clickEvents}>
+        {title}
+      </div>
       {renderChildren()}
     </li>
   );
