@@ -2,6 +2,7 @@ import Alert from './components/Alert/Alert';
 import Button from './components/Button/button';
 import Menu from './components/Menu/menu';
 import MenuItem from './components/Menu/menuItem';
+import SubMenu from './components/Menu/subMenu';
 import './styles/index.scss';
 
 function App() {
@@ -34,10 +35,20 @@ function App() {
         <MenuItem>link1</MenuItem>
       </Menu>
 
-      <Menu>
+      <Menu
+        defaultOpenSubMenus={['2']}
+        onSelect={(index) => {
+          alert(index);
+        }}
+        mode={'vertical'}
+      >
         <MenuItem>link1</MenuItem>
         <MenuItem disabled={true}>link1</MenuItem>
-        <MenuItem>link1</MenuItem>
+        <SubMenu title="dropdown">
+          <MenuItem>link3</MenuItem>
+          <MenuItem>link3</MenuItem>
+          <MenuItem>link3</MenuItem>
+        </SubMenu>
       </Menu>
     </>
   );
