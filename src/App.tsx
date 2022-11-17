@@ -40,7 +40,6 @@ function App() {
         onSelect={(index) => {
           alert(index);
         }}
-        mode={'vertical'}
       >
         <MenuItem>link1</MenuItem>
         <MenuItem disabled={true}>link1</MenuItem>

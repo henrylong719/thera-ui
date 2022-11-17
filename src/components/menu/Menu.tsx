@@ -1,10 +1,4 @@
-import React, {
-  FC,
-  useState,
-  createContext,
-  CSSProperties,
-  ReactNode,
-} from 'react';
+import React, { useState, createContext } from 'react';
 import classNames from 'classnames';
 import { MenuItemProps } from './menuItem';
 
@@ -32,10 +26,10 @@ export const MenuContext = createContext<IMenuContext>({ index: '0' });
 
 const Menu: React.FC<MenuProps> = (props) => {
   const {
+    defaultIndex,
     className,
     mode,
     style,
-    defaultIndex,
     children,
     onSelect,
     defaultOpenSubMenus,
