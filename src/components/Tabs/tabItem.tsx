@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { FC, ReactNode } from 'react';
 
-export interface TabItemProps {}
+export interface TabItemProps {
+  label: string | React.ReactElement;
+  disabled?: boolean;
+  children?: ReactNode;
+}
 
-const tabItem = () => {
-  return <div>tabItem</div>;
+export const TabItem: FC<TabItemProps> = ({ children }) => {
+  return <div className="thera-tab-panel">{children}</div>;
 };
 
-export default tabItem;
+export default TabItem;

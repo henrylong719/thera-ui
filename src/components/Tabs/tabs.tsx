@@ -1,73 +1,76 @@
 import classNames from 'classnames';
-import React, { createContext, useState } from 'react';
+import React, { FunctionComponentElement, ReactNode, useState } from 'react';
 import { TabItemProps } from './tabItem';
 
-type SelectCallback = (selectedIndex: string) => void;
-
 export interface TabsProps {
-  label: string;
-  defaultIndex?: string;
+  defaultIndex?: number;
   className?: string;
-  style?: React.CSSProperties;
-  children?: React.ReactNode;
-  onSelect?: SelectCallback;
+  children?: ReactNode;
+  type?: 'line' | 'card';
+  onSelect?: (selectedIndex: number) => void;
 }
-
-interface ITabsContext {
-  label: string;
-  index: string;
-  onSelect?: SelectCallback;
-}
-
-export const TabsContext = createContext<ITabsContext>({
-  index: '0',
-  label: '',
-});
 
 const Tabs: React.FC<TabsProps> = (props) => {
-  const { label, defaultIndex, className, style, children, onSelect } = props;
-  const [currentActive, setActive] = useState(defaultIndex);
-  const classes = classNames('thera-tabs', className);
+  const { defaultIndex, className, children, type, onSelect } = props;
 
-  const handleClick = (index: string) => {
-    setActive(index);
-    if (onSelect) {
-      onSelect(index);
+  const [activeIndex, setActiveIndex] = useState(defaultIndex);
+
+  const handleClick = (
+    e: React.MouseEvent,
+    index: number,
+    disabled: boolean | undefined
+  ) => {
+    if (!disabled) {
+      setActiveIndex(index);
+      if (onSelect) {
+        onSelect(index);
+      }
     }
   };
 
-  const passedContext: ITabsContext = {
-    label: label ? label : '',
-    index: currentActive ? currentActive : '0',
-    onSelect: handleClick,
-  };
+  const navClass = classNames('thera-tabs-nav', {
+    'nav-line': type === 'line',
+    'nav-card': type === 'card',
+  });
 
-  const renderChildren = () => {
+  const renderNavLinks = () => {
     return React.Children.map(children, (child, index) => {
-      const childElement = child as React.FunctionComponentElement<any>;
-
-      const { displayName } = childElement.type;
-
-      if (displayName === 'TabItem') {
-        return React.cloneElement(childElement, {
-          index: index.toString(),
-          label: label,
-        });
-      } else {
-        console.error(
-          'Warning: Menu has a child which is not a TabItem component'
-        );
+      const childElement = child as FunctionComponentElement<TabItemProps>;
+      const { label, disabled } = childElement.props;
+      const classes = classNames('thera-tabs-nav-item', {
+        'is-active': activeIndex === index,
+        disabled: disabled,
+      });
+      return (
+        <li
+          className={classes}
+          key={`nav-item-${index}`}
+          onClick={(e) => {
+            handleClick(e, index, disabled);
+          }}
+        >
+          {label}
+        </li>
+      );
+    });
+  };
+  const renderContent = () => {
+    return React.Children.map(children, (child, index) => {
+      if (index === activeIndex) {
+        return child;
       }
     });
   };
-
   return (
-    <ul className={classes} style={style} data-testid="test-tabs">
-      <TabsContext.Provider value={passedContext}>
-        {renderChildren()}
-      </TabsContext.Provider>
-    </ul>
+    <div className={`thera-tabs ${className}`}>
+      <ul className={navClass}>{renderNavLinks()}</ul>
+      <div className="thera-tabs-content">{renderContent()}</div>
+    </div>
   );
 };
 
+Tabs.defaultProps = {
+  defaultIndex: 0,
+  type: 'line',
+};
 export default Tabs;
