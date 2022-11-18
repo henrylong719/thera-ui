@@ -54,6 +54,7 @@ const Tabs: React.FC<TabsProps> = (props) => {
       );
     });
   };
+
   const renderContent = () => {
     return React.Children.map(children, (child, index) => {
       if (index === activeIndex) {
@@ -61,6 +62,7 @@ const Tabs: React.FC<TabsProps> = (props) => {
       }
     });
   };
+
   return (
     <div className={`thera-tabs ${className}`}>
       <ul className={navClass}>{renderNavLinks()}</ul>
