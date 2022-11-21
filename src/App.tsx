@@ -6,10 +6,15 @@ import SubMenu from './components/Menu/subMenu';
 import TabItem from './components/Tabs/tabItem';
 import Tabs from './components/Tabs/tabs';
 import './styles/index.scss';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import Icon from './components/Icon/icon';
+library.add(fas);
 
 function App() {
   return (
     <>
+      <Icon icon={'arrow-down'} theme="primary" size="10x" />
       <Button>Hello</Button>
       <Button btnType={'primary'} size={'lg'}>
         Hello two
