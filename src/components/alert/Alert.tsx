@@ -1,5 +1,7 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import Icon from '../Icon/icon';
+import Transition from '../Transition';
 
 export type AlertType = 'success' | 'default' | 'danger' | 'warning';
 
@@ -32,19 +34,17 @@ const Alert: React.FC<AlertProps> = (props) => {
   };
 
   return (
-    <>
-      {!hide && (
-        <div className={classes}>
-          <span className={titleClass}>{title}</span>
-          {description && <p className="thera-alert-close">{description}</p>}
-          {closable && (
-            <span className="thera-alert-close" onClick={handleClose}>
-              close
-            </span>
-          )}
-        </div>
-      )}
-    </>
+    <Transition in={!hide} timeout={300} animation="zoom-in-top">
+      <div className={classes}>
+        <span className={titleClass}>{title}</span>
+        {description && <p className="thera-alert-desc">{description}</p>}
+        {closable && (
+          <span className="thera-alert-close" onClick={handleClose}>
+            <Icon icon="times" />
+          </span>
+        )}
+      </div>
+    </Transition>
   );
 };
 
