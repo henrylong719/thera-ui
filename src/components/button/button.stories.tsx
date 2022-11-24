@@ -18,6 +18,14 @@ Default.args = {
   children: 'Default Button',
 };
 
+Default.decorators = [
+  (Story) => (
+    <div style={{ margin: '50px' }}>
+      <Story />
+    </div>
+  ),
+];
+
 Default.storyName = 'default button';
 
 export const Large = Template.bind({});

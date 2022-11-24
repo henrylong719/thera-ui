@@ -6,8 +6,11 @@ export type ButtonType = 'primary' | 'default' | 'danger' | 'link';
 
 interface BaseButtonProps {
   className?: string;
+  /** Set button disabled */
   disabled?: boolean;
+  /** Set button size */
   size?: ButtonSize;
+  /** Set button type */
   btnType?: ButtonType;
   children: React.ReactNode;
   href?: string;
@@ -16,6 +19,14 @@ interface BaseButtonProps {
 type NativeButtonProps = BaseButtonProps & ButtonHTMLAttributes<HTMLElement>;
 type AnchorButtonProps = BaseButtonProps & AnchorHTMLAttributes<HTMLElement>;
 export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>;
+
+/**
+ * The Button element in the page
+ *
+ * ```javascript
+ * import {Button} from 'thera-ui'
+ * ```
+ */
 
 export const Button: FC<ButtonProps> = (props) => {
   const { btnType, className, disabled, size, children, href, ...restProps } =
