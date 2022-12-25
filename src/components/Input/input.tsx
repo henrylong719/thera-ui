@@ -16,7 +16,7 @@ const Input: FC<InputProps> = (props) => {
   const { disabled, size, icon, prepand, append, ...restProps } = props;
 
   const classes = classNames('input', {
-    [`input-${size}`]: size,
+    [`input-size-${size}`]: size,
     disabled: disabled,
   });
 
