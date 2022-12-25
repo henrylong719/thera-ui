@@ -1,32 +1,75 @@
-import { ChangeEvent, FC, InputHTMLAttributes, ReactElement } from 'react';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import React, {
+  ReactElement,
+  InputHTMLAttributes,
+  ChangeEvent,
+  forwardRef,
+} from 'react';
 import classNames from 'classnames';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import Icon from '../Icon/icon';
+
 type InputSize = 'lg' | 'sm';
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLElement>, 'size'> {
+  /**is disable Input */
   disabled?: boolean;
+  /**set input size, lg or sm */
   size?: InputSize;
+  /** add icon */
   icon?: IconProp;
-  prepand?: string | ReactElement;
+  /**add prepend */
+  prepend?: string | ReactElement;
+  /**add append */
   append?: string | ReactElement;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: FC<InputProps> = (props) => {
-  const { disabled, size, icon, prepand, append, ...restProps } = props;
-
-  const classes = classNames('input', {
+/**
+ *
+ *
+ * ~~~js
+ *
+ * import { Input } from 'vikingship'
+ * ~~~
+ *
+ *
+ */
+export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+  const { disabled, size, icon, prepend, append, style, ...restProps } = props;
+  const cnames = classNames('viking-input-wrapper', {
     [`input-size-${size}`]: size,
-    disabled: disabled,
+    'is-disabled': disabled,
+    'input-group': prepend || append,
+    'input-group-append': !!append,
+    'input-group-prepend': !!prepend,
   });
-
+  const fixControlledValue = (value: any) => {
+    if (typeof value === 'undefined' || value === null) {
+      return '';
+    }
+    return value;
+  };
+  if ('value' in props) {
+    delete restProps.defaultValue;
+    restProps.value = fixControlledValue(props.value);
+  }
   return (
-    <>
-      {prepand}
-      <input className={classes} disabled={disabled} {...restProps}></input>
-      {append}
-    </>
+    <div className={cnames} style={style}>
+      {prepend && <div className="viking-input-group-prepend">{prepend}</div>}
+      {icon && (
+        <div className="icon-wrapper">
+          <Icon icon={icon} title={`title-${icon}`} />
+        </div>
+      )}
+      <input
+        ref={ref}
+        className="viking-input-inner"
+        disabled={disabled}
+        {...restProps}
+      />
+      {append && <div className="viking-input-group-append">{append}</div>}
+    </div>
   );
-};
+});
 
 export default Input;
