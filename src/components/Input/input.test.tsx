@@ -14,7 +14,7 @@ describe('test Input component', () => {
       'test-input'
     ) as HTMLInputElement;
     expect(testNode).toBeInTheDocument();
-    expect(testNode).toHaveClass('viking-input-inner');
+    expect(testNode).toHaveClass('thera-input-inner');
     fireEvent.change(testNode, { target: { value: '23' } });
     expect(defaultProps.onChange).toHaveBeenCalled();
     expect(testNode.value).toEqual('23');
@@ -31,7 +31,7 @@ describe('test Input component', () => {
     const wrapper = render(<Input placeholder="sizes" size="lg" />);
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     const testContainer = wrapper.container.querySelector(
-      '.viking-input-wrapper'
+      '.thera-input-wrapper'
     );
     expect(testContainer).toHaveClass('input-size-lg');
   });
@@ -40,7 +40,7 @@ describe('test Input component', () => {
       <Input placeholder="pend" prepend="https://" append=".com" />
     );
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    const testContainer = container.querySelector('.viking-input-wrapper');
+    const testContainer = container.querySelector('.thera-input-wrapper');
     expect(testContainer).toHaveClass(
       'input-group input-group-append input-group-prepend'
     );

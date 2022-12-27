@@ -29,14 +29,14 @@ export interface InputProps
  *
  * ~~~js
  *
- * import { Input } from 'vikingship'
+ * import { Input } from 'thera'
  * ~~~
  *
  *
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const { disabled, size, icon, prepend, append, style, ...restProps } = props;
-  const cnames = classNames('viking-input-wrapper', {
+  const cnames = classNames('thera-input-wrapper', {
     [`input-size-${size}`]: size,
     'is-disabled': disabled,
     'input-group': prepend || append,
@@ -55,7 +55,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   }
   return (
     <div className={cnames} style={style}>
-      {prepend && <div className="viking-input-group-prepend">{prepend}</div>}
+      {prepend && <div className="thera-input-group-prepend">{prepend}</div>}
       {icon && (
         <div className="icon-wrapper">
           <Icon icon={icon} title={`title-${icon}`} />
@@ -63,11 +63,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
       )}
       <input
         ref={ref}
-        className="viking-input-inner"
+        className="thera-input-inner"
         disabled={disabled}
         {...restProps}
       />
-      {append && <div className="viking-input-group-append">{append}</div>}
+      {append && <div className="thera-input-group-append">{append}</div>}
     </div>
   );
 });
