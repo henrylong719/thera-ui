@@ -1,17 +1,17 @@
-import classNames from 'classnames';
 import React, {
-  createContext,
   FC,
-  FunctionComponentElement,
-  ReactNode,
-  useEffect,
-  useRef,
   useState,
+  createContext,
+  useRef,
+  FunctionComponentElement,
+  useEffect,
+  ReactNode,
 } from 'react';
-import { Transition } from 'react-transition-group';
-import useClickOutside from '../../hooks/useClickOutside';
-import Icon from '../Icon/icon';
+import classNames from 'classnames';
 import Input from '../Input';
+import Icon from '../Icon';
+import useClickOutside from '../../hooks/useClickOutside';
+import Transition from '../Transition/transition';
 import { SelectOptionProps } from './option';
 
 export interface SelectProps {
@@ -34,7 +34,11 @@ export interface ISelectContext {
 export const SelectContext = createContext<ISelectContext>({
   selectedValues: [],
 });
-
+/**
+ * ~~~js
+ * import { Select } from 'theraship'
+ * ~~~
+ */
 export const Select: FC<SelectProps> = (props) => {
   const {
     defaultValue,
@@ -46,37 +50,50 @@ export const Select: FC<SelectProps> = (props) => {
     onChange,
     onVisibleChange,
   } = props;
-
   const input = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLInputElement>(null);
   const containerWidth = useRef(0);
   const [selectedValues, setSelectedValues] = useState<string[]>(
     Array.isArray(defaultValue) ? defaultValue : []
   );
-
   const [menuOpen, setOpen] = useState(false);
   const [value, setValue] = useState(
     typeof defaultValue === 'string' ? defaultValue : ''
   );
-
   const handleOptionClick = (value: string, isSelected?: boolean) => {
+    // update value
     if (!multiple) {
       setOpen(false);
       setValue(value);
-      onVisibleChange && onVisibleChange(false);
+      if (onVisibleChange) {
+        onVisibleChange(false);
+      }
     } else {
       setValue('');
     }
     let updatedValues = [value];
+    // click again to remove selected when is multiple mode
     if (multiple) {
       updatedValues = isSelected
         ? selectedValues.filter((v) => v !== value)
         : [...selectedValues, value];
       setSelectedValues(updatedValues);
     }
-    onChange && onChange(value, updatedValues);
+    if (onChange) {
+      onChange(value, updatedValues);
+    }
   };
-
+  useEffect(() => {
+    // focus input
+    if (input.current) {
+      input.current.focus();
+      if (multiple && selectedValues.length > 0) {
+        input.current.placeholder = '';
+      } else {
+        if (placeholder) input.current.placeholder = placeholder;
+      }
+    }
+  }, [selectedValues, multiple, placeholder]);
   useEffect(() => {
     if (containerRef.current) {
       containerWidth.current =
