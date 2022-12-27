@@ -1,5 +1,4 @@
-import classNames from 'classnames';
-import {
+import React, {
   FC,
   useState,
   ChangeEvent,
@@ -8,28 +7,36 @@ import {
   useEffect,
   useRef,
 } from 'react';
-
-import { Transition } from 'react-transition-group';
-import useClickOutside from '../../hooks/useClickOutside';
-import useDebounce from '../../hooks/useDebounce';
-import Icon from '../Icon/icon';
+import classNames from 'classnames';
 import Input, { InputProps } from '../Input/input';
-
+import Icon from '../Icon/icon';
+import Transition from '../Transition/transition';
+import useDebounce from '../../hooks/useDebounce';
+import useClickOutside from '../../hooks/useClickOutside';
 interface DataSourceObject {
   value: string;
 }
-
 export type DataSourceType<T = {}> = T & DataSourceObject;
 export interface AutoCompleteProps
   extends Omit<InputProps, 'onSelect' | 'onChange'> {
+  /**
+   *
+   * type DataSourceType<T = {}> = T & DataSourceObject
+   */
   fetchSuggestions: (
     str: string
   ) => DataSourceType[] | Promise<DataSourceType[]>;
-  onSelect?: (Item: DataSourceType) => void;
+  onSelect?: (item: DataSourceType) => void;
   onChange?: (value: string) => void;
   renderOption?: (item: DataSourceType) => ReactElement;
 }
 
+/**
+ *
+ * ~~~js
+ * import { AutoComplete } from 'theraship'
+ * ~~~
+ */
 export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   const {
     fetchSuggestions,
@@ -41,7 +48,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   } = props;
 
   const [inputValue, setInputValue] = useState(value as string);
-  const [suggestions, setSuggestions] = useState<DataSourceType[]>([]);
+  const [suggestions, setSugestions] = useState<DataSourceType[]>([]);
   const [loading, setLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [highlightIndex, setHighlightIndex] = useState(-1);
@@ -49,23 +56,23 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   const componentRef = useRef<HTMLDivElement>(null);
   const debouncedValue = useDebounce(inputValue, 300);
   useClickOutside(componentRef, () => {
-    setSuggestions([]);
+    setSugestions([]);
   });
   useEffect(() => {
     if (debouncedValue && triggerSearch.current) {
-      setSuggestions([]);
+      setSugestions([]);
       const results = fetchSuggestions(debouncedValue);
       if (results instanceof Promise) {
         setLoading(true);
         results.then((data) => {
           setLoading(false);
-          setSuggestions(data);
+          setSugestions(data);
           if (data.length > 0) {
             setShowDropdown(true);
           }
         });
       } else {
-        setSuggestions(results);
+        setSugestions(results);
         setShowDropdown(true);
         if (results.length > 0) {
           setShowDropdown(true);
@@ -84,19 +91,19 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     setHighlightIndex(index);
   };
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    switch (e.keyCode) {
-      case 13:
+    switch (e.key) {
+      case 'Enter':
         if (suggestions[highlightIndex]) {
           handleSelect(suggestions[highlightIndex]);
         }
         break;
-      case 38:
+      case 'ArrowUp':
         highlight(highlightIndex - 1);
         break;
-      case 40:
+      case 'ArrowDown':
         highlight(highlightIndex + 1);
         break;
-      case 27:
+      case 'Esc':
         setShowDropdown(false);
         break;
       default:
@@ -123,20 +130,19 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   const renderTemplate = (item: DataSourceType) => {
     return renderOption ? renderOption(item) : item.value;
   };
-
   const generateDropdown = () => {
     return (
       <Transition
         in={showDropdown || loading}
         animation="zoom-in-top"
         timeout={300}
-        onExit={() => {
-          setSuggestions([]);
+        onExited={() => {
+          setSugestions([]);
         }}
       >
         <ul className="thera-suggestion-list">
           {loading && (
-            <div className="suggestions-loading-icon">
+            <div className="suggstions-loading-icon">
               <Icon icon="spinner" spin />
             </div>
           )}
@@ -158,7 +164,6 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
       </Transition>
     );
   };
-
   return (
     <div className="thera-auto-complete" ref={componentRef}>
       <Input
@@ -167,7 +172,6 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-
       {generateDropdown()}
     </div>
   );
