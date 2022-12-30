@@ -36,7 +36,7 @@ export const SelectContext = createContext<ISelectContext>({
 });
 /**
  * ~~~js
- * import { Select } from 'theraship'
+ * import { Select } from 'theraui'
  * ~~~
  */
 export const Select: FC<SelectProps> = (props) => {
