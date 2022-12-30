@@ -1,4 +1,3 @@
-import React from 'react';
 import { ComponentMeta } from '@storybook/react';
 import { Upload } from './upload';
 import Button from '../Button/button';
@@ -24,7 +23,7 @@ export const ASimpleUpload = (args: any) => (
     </Button>
   </Upload>
 );
-ASimpleUpload.storyName = '普通的 Upload 组件';
+ASimpleUpload.storyName = 'Upload component';
 export const BCheckUpload = (args: any) => {
   const checkFileSize = (file: File) => {
     if (Math.round(file.size / 1024) > 50) {
