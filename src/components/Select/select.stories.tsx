@@ -31,8 +31,8 @@ export const BMultipleSelect = (args: any) => (
     <Select.Option value="nihao" />
     <Select.Option value="nihao2" />
     <Select.Option value="nihao3" />
-    <Select.Option value="viking" />
-    <Select.Option value="viking2" />
+    <Select.Option value="thera" />
+    <Select.Option value="thera2" />
   </Select>
 );
 BMultipleSelect.storyName = 'support multiple Select';

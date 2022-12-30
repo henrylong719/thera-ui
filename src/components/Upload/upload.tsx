@@ -1,4 +1,4 @@
-import axios, { AxiosProgressEvent } from 'axios';
+import axios from 'axios';
 import React, { ChangeEvent, FC, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Dragger from './dragger';
@@ -43,7 +43,7 @@ export interface UploadProps {
   children?: React.ReactNode;
 }
 
-const Upload: FC<UploadProps> = (props) => {
+export const Upload: FC<UploadProps> = (props) => {
   const {
     action,
     defaultFileList,
@@ -62,7 +62,6 @@ const Upload: FC<UploadProps> = (props) => {
     children,
     drag,
   } = props;
-
   const fileInput = useRef<HTMLInputElement>(null);
   const [fileList, setFileList] = useState<UploadFile[]>(defaultFileList || []);
   const updateFileList = (
@@ -73,18 +72,17 @@ const Upload: FC<UploadProps> = (props) => {
       return prevList.map((file) => {
         if (file.id === updateFile.id) {
           return { ...file, ...updateObj };
+        } else {
+          return file;
         }
-        return file;
       });
     });
   };
-
   const handleClick = () => {
     if (fileInput.current) {
       fileInput.current.click();
     }
   };
-
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) {
@@ -95,17 +93,14 @@ const Upload: FC<UploadProps> = (props) => {
       fileInput.current.value = '';
     }
   };
-
   const handleRemove = (file: UploadFile) => {
     setFileList((prevList) => {
       return prevList.filter((item) => item.id !== file.id);
     });
-
     if (onRemove) {
       onRemove(file);
     }
   };
-
   const uploadFiles = (files: FileList, test?: boolean) => {
     let postFiles = Array.from(files);
     if (test) {
@@ -117,8 +112,8 @@ const Upload: FC<UploadProps> = (props) => {
       } else {
         const result = beforeUpload(file);
         if (result && result instanceof Promise) {
-          result.then((precessedFile) => {
-            post(precessedFile);
+          result.then((processedFile) => {
+            post(processedFile);
           });
         } else if (result !== false) {
           post(file);
@@ -126,7 +121,6 @@ const Upload: FC<UploadProps> = (props) => {
       }
     });
   };
-
   const post = (file: File) => {
     let _file: UploadFile = {
       id: uuidv4(),
@@ -153,7 +147,7 @@ const Upload: FC<UploadProps> = (props) => {
           'Content-Type': 'multipart/form-data',
         },
         withCredentials,
-        onUploadProgress: (e: AxiosProgressEvent) => {
+        onUploadProgress: (e) => {
           const total = e.total as number;
           let percentage = Math.round((e.loaded * 100) / total) || 0;
           if (percentage < 100) {
@@ -180,6 +174,7 @@ const Upload: FC<UploadProps> = (props) => {
       .catch((err) => {
         updateFileList(_file, { status: 'error', error: err });
         _file.status = 'error';
+        _file.error = err;
         if (onError) {
           onError(err, _file);
         }
@@ -207,7 +202,6 @@ const Upload: FC<UploadProps> = (props) => {
         ) : (
           children
         )}
-
         <input
           className="thera-file-input"
           style={{ display: 'none' }}
@@ -218,9 +212,13 @@ const Upload: FC<UploadProps> = (props) => {
           multiple={multiple}
         />
       </div>
+
       <UploadList fileList={fileList} onRemove={handleRemove} />
     </div>
   );
 };
 
+Upload.defaultProps = {
+  name: 'file',
+};
 export default Upload;
