@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import Alert, { AlertProps, AlertType } from './Alert';
+import Alert, { AlertProps, AlertType } from './alert';
 
 const testProps: AlertProps = {
   title: 'title',

@@ -1,4 +1,3 @@
-import Alert from './components/Alert/Alert';
 import Button from './components/Button/button';
 import Menu from './components/Menu/menu';
 import MenuItem from './components/Menu/menuItem';
@@ -9,6 +8,7 @@ import './styles/index.scss';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import Icon from './components/Icon/icon';
+import React from 'react';
 library.add(fas);
 
 function App() {
@@ -26,15 +26,6 @@ function App() {
       <Button btnType={'link'} href="https://www.google.com">
         Hello google
       </Button>
-
-      <Alert
-        title="this is the danger alert"
-        type={'danger'}
-        closable={false}
-      />
-      <Alert title="this is the default alert" type={'default'} />
-      <Alert title="this is the success alert" type={'success'} />
-      <Alert title="this is the warning alert" type={'warning'} />
 
       <Menu mode={'vertical'}>
         <MenuItem>link1</MenuItem>

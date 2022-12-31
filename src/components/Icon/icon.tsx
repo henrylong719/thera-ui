@@ -3,6 +3,7 @@ import {
   FontAwesomeIconProps,
 } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
+import React, { FC } from 'react';
 
 export type ThemeProps =
   | 'primary'
@@ -18,7 +19,7 @@ export interface IconProps extends FontAwesomeIconProps {
   theme?: ThemeProps;
 }
 
-const Icon: React.FC<IconProps> = (props) => {
+const Icon: FC<IconProps> = (props) => {
   const { className, theme, ...restProps } = props;
   const classes = classNames('thera-icon', className, {
     [`icon-${theme}`]: theme,

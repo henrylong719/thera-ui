@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import Icon from '../Icon';
 import Progress from '../Progress';
 import { UploadFile } from './upload';
