@@ -30,7 +30,10 @@
     "axios": "^1.2.2",
     "classnames": "^2.3.2",
     "react-transition-group": "^4.4.5",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^4.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -101,9 +104,6 @@
     "css-loader": "^6.7.3",
     "node-sass": "^8.0.0",
     "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "^4.0.3",
     "rimraf": "^3.0.2",
     "rollup-plugin-exclude-dependencies-from-bundle": "^1.1.23",
     "rollup-plugin-sass": "^1.12.17",
