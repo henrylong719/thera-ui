@@ -22,6 +22,7 @@ const typeProps: AlertProps = {
   description: 'hello',
   closable: false,
 };
+
 describe('test Alert Component', () => {
   it('should render the correct default Alert', () => {
     const { getByText, container, queryByText } = render(
