@@ -36,6 +36,7 @@ describe('test Alert Component', () => {
     expect(testProps.onClose).toHaveBeenCalled();
     expect(queryByText('title')).not.toBeInTheDocument();
   });
+
   it('should render the correct Alert based on different type and description', () => {
     const { container, queryByText } = render(<Alert {...typeProps} />);
     expect(queryByText('title')).toHaveClass('bold-title');
