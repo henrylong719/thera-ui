@@ -11,12 +11,23 @@ import Menu, { MenuProps } from './menu';
 import MenuItem from './menuItem';
 import SubMenu from './subMenu';
 
+jest.mock('../Icon/icon', () => {
+  return () => {
+    return <i className="fa" />;
+  };
+});
+jest.mock('react-transition-group', () => {
+  return {
+    CSSTransition: (props: any) => {
+      return props.children;
+    },
+  };
+});
 const testProps: MenuProps = {
   defaultIndex: '0',
   onSelect: jest.fn(),
   className: 'test',
 };
-
 const testVerProps: MenuProps = {
   defaultIndex: '0',
   mode: 'vertical',
@@ -62,9 +73,7 @@ let menuElement: HTMLElement,
 
 describe('test Menu and MenuItem component', () => {
   beforeEach(() => {
-    // eslint-disable-next-line testing-library/no-render-in-setup, testing-library/render-result-naming-convention
     const wrapper = render(generateMenu(testProps));
-    // eslint-disable-next-line testing-library/no-container
     wrapper.container.append(createStyleFile());
 
     menuElement = screen.getByTestId('test-menu');
@@ -75,8 +84,6 @@ describe('test Menu and MenuItem component', () => {
   it('should render correct Menu and MenuItem based on default props', () => {
     expect(menuElement).toBeInTheDocument();
     expect(menuElement).toHaveClass('thera-menu test');
-    // eslint-disable-next-line testing-library/no-node-access
-    // eslint-disable-next-line testing-library/no-node-access
     expect(menuElement.querySelectorAll(':scope > li').length).toEqual(5);
     expect(activeElement).toHaveClass('menu-item is-active');
     expect(disabledElement).toHaveClass('menu-item is-disabled');
@@ -125,9 +132,7 @@ describe('test Menu and MenuItem component in vertical mode', () => {
     HTMLElement
   >;
   beforeEach(() => {
-    // eslint-disable-next-line testing-library/no-render-in-setup, testing-library/render-result-naming-convention
     wrapper2 = render(generateMenu(testVerProps));
-    // eslint-disable-next-line testing-library/no-container
     wrapper2.container.append(createStyleFile());
   });
 

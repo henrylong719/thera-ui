@@ -30,7 +30,6 @@ describe('test upload component', () => {
   beforeEach(() => {
     // eslint-disable-next-line testing-library/no-render-in-setup
     wrapper = render(<Upload {...testProps}>Click to upload</Upload>);
-    // eslint-disable-next-line testing-library/no-node-access
     fileInput = wrapper.container.querySelector(
       '.thera-file-input'
     ) as HTMLInputElement;
@@ -51,7 +50,6 @@ describe('test upload component', () => {
     await waitFor(() => {
       // eslint-disable-next-line testing-library/prefer-screen-queries, testing-library/prefer-presence-queries
       expect(queryByText('test.png')).toBeInTheDocument();
-      // eslint-disable-next-line testing-library/no-wait-for-multiple-assertions, testing-library/prefer-screen-queries, testing-library/prefer-presence-queries
       expect(queryByText('check-circle')).toBeInTheDocument();
     });
     expect(testProps.onSuccess).toHaveBeenCalledWith(

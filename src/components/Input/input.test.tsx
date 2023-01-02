@@ -27,9 +27,7 @@ describe('test Input component', () => {
     expect(testNode.disabled).toBeTruthy();
   });
   it('should render different input sizes on size property', () => {
-    // eslint-disable-next-line testing-library/render-result-naming-convention
     const wrapper = render(<Input placeholder="sizes" size="lg" />);
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     const testContainer = wrapper.container.querySelector(
       '.thera-input-wrapper'
     );
@@ -39,7 +37,6 @@ describe('test Input component', () => {
     const { queryByText, container } = render(
       <Input placeholder="pend" prepend="https://" append=".com" />
     );
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     const testContainer = container.querySelector('.thera-input-wrapper');
     expect(testContainer).toHaveClass(
       'input-group input-group-append input-group-prepend'

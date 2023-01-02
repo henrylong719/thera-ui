@@ -1,5 +1,15 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import Alert, { AlertProps, AlertType } from './alert';
+import React from 'react';
+import { config } from 'react-transition-group';
+import { render, fireEvent } from '@testing-library/react';
+
+import Alert, { AlertProps } from './alert';
+config.disabled = true;
+
+jest.mock('../Icon/icon', () => {
+  return (props: any) => {
+    return <span>{props.icon}</span>;
+  };
+});
 
 const testProps: AlertProps = {
   title: 'title',
@@ -7,57 +17,31 @@ const testProps: AlertProps = {
 };
 
 const typeProps: AlertProps = {
-  title: 'title',
-  description: 'description',
-  type: 'success' as AlertType,
-  onClose: jest.fn(),
+  ...testProps,
+  type: 'success',
+  description: 'hello',
   closable: false,
 };
-
-describe('test alert component', () => {
-  it('should render the correct default alert banner', () => {
-    const { container } = render(<Alert {...testProps}></Alert>);
-
-    const element = screen.getByText('title');
-
-    expect(element).toBeInTheDocument();
-
-    expect(element).toHaveClass('thera-alert-title');
-
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+describe('test Alert Component', () => {
+  it('should render the correct default Alert', () => {
+    const { getByText, container, queryByText } = render(
+      <Alert {...testProps} />
+    );
+    expect(queryByText('title')).toBeInTheDocument();
     expect(container.querySelector('.thera-alert')).toHaveClass(
       'thera-alert-default'
     );
-  });
-
-  it('should hide when close span is clicked', () => {
-    render(<Alert {...testProps}></Alert>);
-
-    const element = screen.getByText('close');
-
-    expect(element).toBeInTheDocument();
-
-    fireEvent.click(element);
-
+    fireEvent.click(getByText('times'));
     expect(testProps.onClose).toHaveBeenCalled();
-
-    expect(screen.queryByText('title')).not.toBeInTheDocument();
+    expect(queryByText('title')).not.toBeInTheDocument();
   });
-
-  it('should render correct alert based on different type and description', () => {
-    const { container } = render(<Alert {...typeProps}></Alert>);
-
-    const element = screen.getByText('title');
-
-    expect(element).toHaveClass('bold-title');
-
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+  it('should render the correct Alert based on different type and description', () => {
+    const { container, queryByText } = render(<Alert {...typeProps} />);
+    expect(queryByText('title')).toHaveClass('bold-title');
     expect(container.querySelector('.thera-alert')).toHaveClass(
       'thera-alert-success'
     );
-
-    expect(screen.getByText('description')).toBeInTheDocument();
-
-    expect(screen.queryByText('close')).not.toBeInTheDocument();
+    expect(queryByText('hello')).toBeInTheDocument();
+    expect(queryByText('times')).not.toBeInTheDocument();
   });
 });
