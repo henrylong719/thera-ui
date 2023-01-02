@@ -9,11 +9,9 @@ A set of high-quality React components
 ## Install
 
 ```bash
-# npm install theraui
+npm install theraui
 ```
 
 ```bash
-# yarn add theraui
+yarn add theraui
 ```
-
-## Usage
