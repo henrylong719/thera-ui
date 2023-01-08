@@ -88,16 +88,16 @@
     "@rollup/plugin-commonjs": "^24.0.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
-    "@storybook/addon-actions": "^6.5.15",
+    "@storybook/addon-actions": "^6.4.22",
     "@storybook/addon-essentials": "^6.4.22",
-    "@storybook/addon-interactions": "^6.5.15",
-    "@storybook/addon-links": "^6.5.15",
-    "@storybook/builder-webpack5": "^6.5.15",
-    "@storybook/manager-webpack5": "^6.5.15",
-    "@storybook/node-logger": "^6.5.15",
-    "@storybook/preset-create-react-app": "^4.1.2",
-    "@storybook/react": "^6.1.21",
-    "@storybook/testing-library": "^0.0.13",
+    "@storybook/addon-interactions": "^6.4.22",
+    "@storybook/addon-links": "^6.4.22",
+    "@storybook/builder-webpack5": "^6.4.22",
+    "@storybook/manager-webpack5": "^6.4.22",
+    "@storybook/preset-create-react-app": "^4.1.0",
+    "@storybook/preset-scss": "^1.0.3",
+    "@storybook/react": "^6.4.22",
+    "@storybook/testing-library": "^0.0.11",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -128,10 +128,10 @@
     "tslib": "^2.4.1",
     "typescript": "^4.9.4",
     "web-vitals": "^2.1.4",
-    "webpack": "^4.44.2"
+    "webpack": "^5.72.0"
   },
   "resolutions": {
     "babel-loader": "8.1.0",
-    "webpack": "4.44.2"
+    "webpack": "^5.75.0"
   }
 }
