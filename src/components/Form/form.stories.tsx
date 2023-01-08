@@ -1,7 +1,7 @@
-// import { ComponentMeta } from '@storybook/react';
-// import Input from '../Input';
-// import Form from './form';
-// import Item from './formItem';
+import { ComponentMeta } from '@storybook/react';
+import Input from '../Input';
+import Form from './form';
+import Item from './formItem';
 
 // const meta: ComponentMeta<typeof Form> = {
 //   title: 'Form Component',

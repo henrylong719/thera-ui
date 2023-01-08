@@ -1,17 +1,34 @@
-import React, { ReactNode, FC } from 'react';
+import React, { ReactNode, FC, createContext } from 'react';
+import useStore from './useStore';
 
 export interface FormProps {
   name?: string;
   children?: ReactNode;
 }
 
+export type IFormContext = Pick<ReturnType<typeof useStore>, 'dispatch'>;
+export const FormContext = createContext<IFormContext>({} as IFormContext);
+
 export const Form: FC<FormProps> = (props) => {
   const { name, children } = props;
+  const { form, fields, dispatch } = useStore();
+
+  const passedContext: IFormContext = {
+    dispatch,
+  };
 
   return (
-    <form name={name} className="thera-form">
-      {children}
-    </form>
+    <>
+      <form name={name} className="thera-form">
+        <FormContext.Provider value={passedContext}>
+          {children}
+        </FormContext.Provider>
+      </form>
+      <div>
+        <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(fields)}</pre>
+        <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(form)}</pre>
+      </div>
+    </>
   );
 };
 
