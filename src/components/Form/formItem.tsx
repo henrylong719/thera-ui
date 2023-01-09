@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React, { FC, ReactNode, useContext, useEffect } from 'react';
 import { FormContext } from './form';
+import { CustomRule } from './useStore';
+import { RuleItem } from 'async-validator';
 
 export type PartialRequired<T, K extends keyof T> = Required<Pick<T, K>> &
   Omit<T, K>;
@@ -12,14 +14,24 @@ export interface FormItemProps {
   valuePropName?: string;
   trigger?: string;
   getValueFromEvent?: (event: any) => any;
+  rules?: CustomRule[];
+  validateTrigger?: string;
 }
 
 const FormItem: FC<FormItemProps> = (props) => {
-  const { label, children, name, valuePropName, trigger, getValueFromEvent } =
-    props as PartialRequired<
-      FormItemProps,
-      'getValueFromEvent' | 'trigger' | 'valuePropName'
-    >;
+  const {
+    label,
+    children,
+    name,
+    valuePropName,
+    trigger,
+    getValueFromEvent,
+    rules,
+    validateTrigger,
+  } = props as PartialRequired<
+    FormItemProps,
+    'getValueFromEvent' | 'trigger' | 'valuePropName' | 'validateTrigger'
+  >;
   const { dispatch, fields, initialValues, validateField } =
     useContext(FormContext);
 
@@ -29,21 +41,42 @@ const FormItem: FC<FormItemProps> = (props) => {
 
   useEffect(() => {
     const value = (initialValues && initialValues[name]) || '';
-    dispatch({ type: 'addField', name, value: { label, name, value } });
+    dispatch({ type: 'addField', name, value: { label, name, value, rules } });
   }, []);
 
   const fieldState = fields[name];
   const value = fieldState && fieldState.value;
+  const errors = fieldState && fieldState.errors;
+  const isRequired = rules?.some(
+    (rule) => typeof rule !== 'function' && rule.required
+  );
+  const hasError = errors && errors.length > 0;
+  const labelClass = classNames({
+    'thera-form-item-required': isRequired,
+  });
+
+  const itemClass = classNames('thera-form-item-control', {
+    'thera-form-item-has-error': hasError,
+  });
+
   const onValueUpdate = (e: any) => {
     const value = getValueFromEvent && getValueFromEvent(e);
     console.log('new value', value);
     dispatch({ type: 'updateValue', name, value });
   };
 
+  const onValueValidate = async () => {
+    await validateField(name);
+  };
+
   // 1. manually create a props list, includes value and onChange
   const controlProps: Record<string, any> = {};
   controlProps[valuePropName!] = value;
   controlProps[trigger!] = onValueUpdate;
+
+  if (rules) {
+    controlProps[validateTrigger] = onValueValidate;
+  }
 
   const childList = React.Children.toArray(children);
 
@@ -73,10 +106,19 @@ const FormItem: FC<FormItemProps> = (props) => {
     <div className={rowClass}>
       {label && (
         <div className="thera-form-item-label">
-          <label title={label}>{label}</label>
+          <label title={label} className={labelClass}>
+            {label}
+          </label>
         </div>
       )}
-      <div className="thera-form-item">{returnChildNode}</div>
+      <div className="thera-form-item">
+        <div className={itemClass}>{returnChildNode}</div>
+        {hasError && (
+          <div className="thera-form-item-explain">
+            <span>{errors[0].message}</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -84,6 +126,7 @@ const FormItem: FC<FormItemProps> = (props) => {
 FormItem.defaultProps = {
   valuePropName: 'value',
   trigger: 'onChange',
+  validateTrigger: 'onBlur',
   getValueFromEvent: (e) => e.target.value,
 };
 
