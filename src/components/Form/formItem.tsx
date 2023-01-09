@@ -20,7 +20,8 @@ const FormItem: FC<FormItemProps> = (props) => {
       FormItemProps,
       'getValueFromEvent' | 'trigger' | 'valuePropName'
     >;
-  const { dispatch, fields, initialValues } = useContext(FormContext);
+  const { dispatch, fields, initialValues, validateField } =
+    useContext(FormContext);
 
   const rowClass = classNames('thera-row', {
     'thera-row-no-label': !label,

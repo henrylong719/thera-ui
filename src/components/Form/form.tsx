@@ -9,7 +9,7 @@ export interface FormProps {
 
 export type IFormContext = Pick<
   ReturnType<typeof useStore>,
-  'dispatch' | 'fields'
+  'dispatch' | 'fields' | 'validateField'
 > &
   Pick<FormProps, 'initialValues'>;
 
@@ -17,12 +17,13 @@ export const FormContext = createContext<IFormContext>({} as IFormContext);
 
 export const Form: FC<FormProps> = (props) => {
   const { name, children, initialValues } = props;
-  const { form, fields, dispatch } = useStore();
+  const { form, fields, dispatch, validateField } = useStore();
 
   const passedContext: IFormContext = {
     dispatch,
     fields,
     initialValues,
+    validateField,
   };
 
   return (
